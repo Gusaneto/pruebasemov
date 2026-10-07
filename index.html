@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generador de documentos de demostración</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;color:#17202a}.wrap{max-width:680px;margin:70px auto;padding:24px}.card{background:#fff;border:1px solid #ddd;border-radius:14px;padding:28px;box-shadow:0 6px 24px #00000012}h1{margin-top:0;font-size:24px}label{display:block;font-weight:700;margin:18px 0 8px}input{width:100%;box-sizing:border-box;padding:13px;border:1px solid #bbb;border-radius:8px;font-size:16px}button{margin-top:18px;padding:13px 18px;border:0;border-radius:8px;background:#222;color:#fff;font-size:16px;cursor:pointer}button:disabled{opacity:.6}.result{margin-top:22px;padding:15px;background:#f0f7ff;border-radius:8px;word-break:break-all;display:none}.note{font-size:13px;color:#666;margin-top:16px}
+</style>
+</head>
+<body><div class="wrap"><div class="card">
+<h1>Generador de documentos de demostración</h1>
+<p>Escribe un dato y genera una URL única para mostrarlo en una página genérica.</p>
+<label for="dato">Nuevo dato / folio</label>
+<input id="dato" maxlength="100" placeholder="Ej. DEMO-00125" autocomplete="off">
+<button id="btn">Generar</button>
+<div id="resultado" class="result"></div>
+<p class="note">Demo genérica. No representa ni valida documentos oficiales.</p>
+</div></div>
+<script>
+const btn=document.getElementById('btn'), dato=document.getElementById('dato'), out=document.getElementById('resultado');
+btn.addEventListener('click',async()=>{const value=dato.value.trim();if(!value){alert('Escribe un dato.');return}btn.disabled=true;out.style.display='none';try{const r=await fetch('/api/generar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dato:value})});const j=await r.json();if(!r.ok)throw new Error(j.error||'Error');out.innerHTML='<strong>URL generada:</strong><br><a href="'+j.url+'" target="_blank" rel="noopener">'+j.url+'</a>';out.style.display='block'}catch(e){alert(e.message)}finally{btn.disabled=false}});
+</script></body></html>

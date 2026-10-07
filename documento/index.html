@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Documento de demostración</title>
+<style>body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;color:#17202a}.wrap{max-width:760px;margin:55px auto;padding:20px}.card{background:#fff;border:1px solid #ddd;border-radius:14px;padding:28px}.head{border-bottom:1px solid #ddd;padding-bottom:18px;margin-bottom:20px}.label{color:#666;font-size:13px}.value{font-size:25px;font-weight:700;margin-top:7px;word-break:break-all}.notice{margin-top:24px;padding:13px;background:#fff8dc;border-radius:8px;font-size:13px;color:#665b22}</style>
+</head><body><div class="wrap"><div class="card"><div class="head"><h1>Documento de demostración</h1><div class="label">Página genérica</div></div><div class="label">Dato generado</div><div id="dato" class="value">Cargando...</div><div class="notice">Esta página es una demostración y no representa, valida ni sustituye un documento oficial.</div></div></div>
+<script>
+const token=location.pathname.split('/').filter(Boolean).pop();
+fetch('/api/documento?token='+encodeURIComponent(token)).then(async r=>{const j=await r.json();if(!r.ok)throw new Error(j.error||'No se pudo cargar');document.getElementById('dato').textContent=j.dato}).catch(e=>{document.getElementById('dato').textContent=e.message});
+</script></body></html>
